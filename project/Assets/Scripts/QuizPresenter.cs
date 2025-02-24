@@ -9,13 +9,14 @@ public class QuizPresenter : MonoBehaviour
 
     [SerializeField] private string _portName = "COM4";
     [SerializeField] private int _baudRate = 9600;
+    [SerializeField] private bool _isTest = false;
 
     void Start()
     {
         _view = FindObjectOfType<QuizView>();
         _view.Init();
 
-        _model = new QuizModel(_portName, _baudRate, _view.CubesCount);
+        _model = new QuizModel(_portName, _baudRate, _view.CubesCount, _isTest);
 
         _model.OnMaterialChangeSignalReceived.AddListener(_view.SetMaterial);
         _model.OnResetSignalReceived.AddListener(_view.ResetCubesMaterial);
@@ -26,6 +27,9 @@ public class QuizPresenter : MonoBehaviour
         TestMessage();
     }
 
+    /// <summary>
+    /// シリアル通信で受け取るデータをキーボードでテスト入力
+    /// </summary>
     private void TestMessage()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))

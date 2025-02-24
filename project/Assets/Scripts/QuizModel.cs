@@ -13,15 +13,20 @@ public class QuizModel
     private UnityEvent _onResetSignalReceived = new UnityEvent();
     private bool _isEmptyAnsweringRight = true;
 
+    private bool _isTest = false;
+
     #region  公開プロパティ
     public UnityEvent<int> OnMaterialChangeSignalReceived { get => _onMaterialChangeSignalReceived; }
     public UnityEvent OnResetSignalReceived { get => _onResetSignalReceived; }
     #endregion
 
-    public QuizModel(string portName, int baudRate, int cubeCount)
+    public QuizModel(string portName, int baudRate, int cubeCount, bool isTest)
     {
-        _serialUtil = new SerialHandleUtility(portName, baudRate);
-        _serialUtil.OnSerialDataReceived.AddListener(ReceiveAnswerSignal);
+        if(!isTest)
+        {
+            _serialUtil = new SerialHandleUtility(portName, baudRate);
+            _serialUtil.OnSerialDataReceived.AddListener(ReceiveAnswerSignal);
+        }
         _answerRights = new int[cubeCount + 1];
     }
 
@@ -30,6 +35,10 @@ public class QuizModel
         ReceiveAnswerSignal(message);
     }
 
+    /// <summary>
+    /// 回答のメッセージを分解
+    /// </summary>
+    /// <param name="message"></param>
     private void ReceiveAnswerSignal(string message)
     {
         var data = message.Split(new string[] { ":" }, System.StringSplitOptions.None);
@@ -49,6 +58,10 @@ public class QuizModel
         }
     }
 
+    /// <summary>
+    /// 対応する回答者を探してイベントを発火する
+    /// </summary>
+    /// <param name="answerRights"></param>
     private void SetAnswerState(int[] answerRights)
     {
         int index = Array.IndexOf(answerRights, 1);//どこにも1がないときは-1が返される

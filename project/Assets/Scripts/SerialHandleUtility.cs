@@ -26,7 +26,9 @@ public class SerialHandleUtility
         ReceiveSerialDataAsync(_cts.Token).Forget();
     }
 
-    // 停止処理
+    /// <summary>
+    /// 停止処理
+    /// </summary>
     public void Close()
     {
         _cts.Cancel();
@@ -36,7 +38,11 @@ public class SerialHandleUtility
         }
     }
 
-    // シリアル通信の受信を開始
+    /// <summary>
+    /// シリアル通信による受信
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
     private async UniTaskVoid ReceiveSerialDataAsync(CancellationToken token)
     {
         while (!token.IsCancellationRequested)

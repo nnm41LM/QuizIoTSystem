@@ -20,6 +20,10 @@ public class QuizView : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
+    /// <summary>
+    /// 対応するマテリアルを設定する
+    /// </summary>
+    /// <param name="index"></param>
     public void SetMaterial(int index)
     {
         _cubes[index].GetComponent<Renderer>().material = _lightMaterials[index];//対応するcubeのマテリアルをLightに変更する
@@ -27,6 +31,9 @@ public class QuizView : MonoBehaviour
         _audioSource.PlayOneShot(_soundEffectClip);
     }
 
+    /// <summary>
+    /// マテリアルを初期状態にリセットする
+    /// </summary>
     public void ResetCubesMaterial()
     {
         for (var i = 0; i < _cubes.Length; i++)
