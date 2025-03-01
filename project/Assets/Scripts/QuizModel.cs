@@ -13,7 +13,6 @@ public class QuizModel
     private UnityEvent _onResetSignalReceived = new UnityEvent();
     private bool _isEmptyAnsweringRight = true;
 
-    private bool _isTest = false;
 
     #region  公開プロパティ
     public UnityEvent<int> OnMaterialChangeSignalReceived { get => _onMaterialChangeSignalReceived; }
